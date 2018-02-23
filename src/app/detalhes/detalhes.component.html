@@ -1,3 +1,25 @@
-<p>
-  detalhes works!
-</p>
+<!-- <h2 mat-dialog-title>{{data.titulo}}</h2>
+<div mat-dialog-content>
+    <img  src="{{data.imagem}}" />
+  {{data.descricao}}
+</div> -->
+
+<mat-card class="card">
+    <mat-card-header>
+      <!-- <div mat-card-avatar class="example-header-image"></div> -->
+      <mat-card-title>{{data.titulo}}</mat-card-title>
+      <mat-card-subtitle>{{data.subtitulo}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image class="cardimage" src="{{data.imagem}}" >
+    <mat-card-content>
+      <p>
+          {{data.descricao}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="btcard">
+      <button mat-button  (click)="addFavorito(bookData)"><mat-icon class="icon">star</mat-icon>ADICIONAR COMO FAVORITO</button>
+      <!-- <button mat-button>SHARE</button> -->
+    </mat-card-actions>
+   
+  </mat-card>
+  

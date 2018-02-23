@@ -10,8 +10,8 @@ export class Utils {
   }
 
   isNullUndefined(val: any, validateZeroNaN?: Boolean) {
-    let isNull: Boolean = false,
-      type = this.getDataType(val);
+    let isNull: Boolean = false;
+    const type = this.getDataType(val);
 
     switch (type) {
       case '[object array]':
@@ -53,16 +53,14 @@ export class Utils {
 
   sortArrayObject(key: string, data: any[], direction?: any) {
     data.sort((a, b) => {
-      let aData = this.getObject(a, key),
+      const aData = this.getObject(a, key),
         bData = this.getObject(b, key);
 
       if (aData === bData) {
         return 0;
-      }
-      else if (aData > bData) {
+      } else if (aData > bData) {
         return direction;
-      }
-      else {
+      } else {
         return -direction;
       }
     });

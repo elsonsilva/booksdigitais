@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ISearchModel } from '../utils/search-model-interface';
-import { HighlightPipe } from '../utils/highlight.pipe';
-// import { CollapseTitle } from '../directives/collapse-title.directive';
+import {MatDialog, MAT_DIALOG_DATA, PageEvent} from '@angular/material';
 
-// import { _settings } from '../helpers/settings';
+import { ISearchModel } from '../utils/search-model-interface';
+import { IDetalhes } from '../utils/detalhes-interface';
+import { HighlightPipe } from '../utils/highlight.pipe';
+
+import { DetalhesComponent } from '../detalhes/detalhes.component';
+
 import { LocalStorage } from '../utils/local-storage.service';
 import { Api } from '../utils/api.service';
 import { Utils } from '../utils/utils.service';
@@ -16,36 +19,40 @@ import { Utils } from '../utils/utils.service';
   styleUrls: ['./lista.component.scss']
 })
 export class ListaComponent {
+
   value = '';
   // MatPaginator Inputs
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions = [10, 25, 100];
+  length = 30;
+  pageSize = 5;
+  pageSizeOptions = [5, 10, 20];
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
   apikey = 'AIzaSyBQlOJgngNAX_jzOu_F_nbggmm2CRf9dkQ';
-  url1 = 'https://www.googleapis.com/books/v1/volumes?q=';
 
   pendingRequest: any;
   model: ISearchModel;
-  resposta = '';
+  resposta: Boolean = false;
 
   booksData: Array<Object> = [];
+  @Output() Selected = new EventEmitter<Array<string>>();
 
   showLoader: Boolean = false;
   inputError: Boolean = false;
-  searchLimitVals: Array<number> = [10, 20, 30, 40];
+  searchLimitVals: Array<number> = [10, 15, 25];
   sortOrderVals: Array<string> = ['relevance', 'newest'];
   localSortOrderVals: Array<Object> = [{
-    'text': 'By: Name',
+    'text': 'Por: Nome',
     'sortValue': '+volumeInfo.title'
   }, {
-    'text': 'By: Price Descending',
+    'text': 'Por: Preço -',
     'sortValue': '-saleInfo.listPrice.amount'
   }, {
-    'text': 'By: Price Ascending',
+    'text': 'Por: Preço +',
     'sortValue': '+saleInfo.listPrice.amount'
   }];
 
-  constructor(private api: Api, private LS: LocalStorage, private utils: Utils) {
+  constructor(public dialog: MatDialog, private api: Api, private LS: LocalStorage, private utils: Utils) {
     this.checkLSForData();
   }
 
@@ -71,7 +78,7 @@ export class ListaComponent {
       this.utils.log('ls value not obtained');
       this.model = {
         searchQuery: '',
-        searchLimit: '10',
+        searchLimit: '5',
         sortOrder: 'relevance',
         localSortKey: '+volumeInfo.title'
       };
@@ -80,7 +87,7 @@ export class ListaComponent {
 
   searchBooks($event: Event) {
     // this.model.searchQuery = this.model.searchQuery.trim();
-
+    // this.resultado = false;
     this.utils.log('searchBooks, searchQuery: ', this.model.searchQuery, ', :searchLimit: ', this.model.searchLimit);
     // if (this.pendingRequest) {
     //   this.pendingRequest = this.pendingRequest.unsubscribe();
@@ -105,41 +112,40 @@ export class ListaComponent {
 
   sendSearchRequest() {
     this.showLoader = true;
-    // this.pendingRequest =
+    this.resposta = true;
     // tslint:disable-next-line:max-line-length
-    // this.pendingRequest = this.api.getData('url1' + this.model.searchQuery + '&maxResults=' + this.model.searchLimit + '&orderBy=' + this.model.sortOrder + '&key=' + this.apikey).
-    // delay(500).
+    // this.pendingRequest = this.api.getData('https://www.googleapis.com/books/v1/volumes?q=' + this.model.searchQuery + '&hl=pt-BR&maxResults=' + this.model.searchLimit + '&orderBy=' + this.model.sortOrder + '&key=AIzaSyBQlOJgngNAX_jzOu_F_nbggmm2CRf9dkQ').
     // tslint:disable-next-line:max-line-length
-    this.pendingRequest = this.api.getData('https://www.googleapis.com/books/v1/volumes?q=' + this.model.searchQuery + '&maxResults=' + this.model.searchLimit + '&orderBy=' + this.model.sortOrder + '&key=AIzaSyBQlOJgngNAX_jzOu_F_nbggmm2CRf9dkQ').
+    this.pendingRequest = this.api.getData('https://www.googleapis.com/books/v1/volumes?q=' + this.model.searchQuery + '&hl=pt-BR&maxResults=' + '5' + '&orderBy=' + this.model.sortOrder + '&key=AIzaSyBQlOJgngNAX_jzOu_F_nbggmm2CRf9dkQ').
 
-      subscribe(
+    subscribe(
         // data => console.log(data),
         data => this.booksData = data.items,
-        error => console.error('Error: ' + error)
-       //  data => console.log(data)
-      // data => data
-      // ,error => console.error('Error: ' + error),
-      // () => this.sortData()
+        // data => this.booksData = data.items,
+        error => console.error('Error: ' + error),
     );
   }
 
+  openDialog(bookData) {
+    this.Selected.emit(bookData);
+    this.dialog.open(DetalhesComponent, {
+      data: {
+        titulo: bookData.volumeInfo.title,
+        subtitulo: bookData.volumeInfo.subtitle,
+        imagem: bookData.volumeInfo.imageLinks.smallThumbnail,
+        descricao: bookData.volumeInfo.description
+      },
+      height: '560px',
+      width: '440px'
+    });
+  }
 
-  // sortData($event?: Event) {
-  //   this.showLoader = false;
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
 
-  //   let sortkey = this.model.localSortKey,
-  //     sortDirection = 1;
-
-  //   if (sortkey.indexOf('-') > 0) {
-  //     sortkey = sortkey.replace(/-/, '');
-  //     sortDirection = -1;
-  //   } else {
-  //     sortkey = sortkey.replace(/\+/, '');
-  //     sortDirection = 1;
-  //   }
-  //   if (!this.utils.isNullUndefined(this.booksData)) {
-  //     this.utils.sortArrayObject(sortkey, this.booksData, sortDirection);
-  //   }
-  // }
 }
+
+
+
 

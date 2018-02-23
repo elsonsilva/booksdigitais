@@ -1,32 +1,47 @@
 <div class="container-0">
 
-  <div class="container-1">
+  <div class="pesquisa">
     <mat-form-field class="form-field">
-      <input matInput type="text" placeholder="Pesquisar Livros"  
-      id="searchQuery" [(ngModel)]="model.searchQuery" name="searchQuery" #searchQuery="ngModel" (keyup)="searchBooks($event)"/>
-      <button mat-button *ngIf="model.searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="model.searchQuery='';searchBooks($event)">
+      <input matInput type="text" placeholder="Pesquisar Livros" id="searchQuery" [(ngModel)]="model.searchQuery" name="searchQuery"
+        #searchQuery="ngModel" (keyup)="searchBooks($event)" />
+      <button mat-button *ngIf="model.searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="model.searchQuery='';searchBooks($event);resposta = false">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
+  <div></div>
   <div class="container-list">
-    <!-- <div>teste</div> -->
+
     <mat-nav-list>
         
-      <mat-list-item *ngFor="let bookData of booksData" [innerHTML]="bookData.volumeInfo.title | highlight: model.searchQuery">
-          <!-- <button mat-icon-button>
-              <mat-icon class="icon">star_border</mat-icon>
-            </button>
-            <p [innerHTML]="highlight()"></p>
-            <span>{{bookData.volumeInfo.title}}</span> -->
-      </mat-list-item>
-    </mat-nav-list>
-    <!-- <div>teste</div> -->
-  </div>
+      <!-- <mat-list-item *ngFor="let bookData of booksData" (click)="openDialog()" (mousedown)="onSelect(bookData.volumeInfo.title)"> -->
+          <mat-list-item *ngFor="let bookData of booksData" (click)="openDialog(bookData)">
+        <mat-divider></mat-divider>
 
-  <div class="container-2">
-    <mat-paginator itemsPerPageLabel="Itens por página" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" >
-    </mat-paginator>
+          <!-- <mat-icon class="icon">star</mat-icon> -->
+
+        <img src="{{bookData.volumeInfo.imageLinks.smallThumbnail}}">
+        <div class="lista">
+          <div class="lista-titulo">
+            <b>Título:</b>
+            <span [innerHTML]="bookData.volumeInfo.title | highlight: model.searchQuery"></span>
+          </div>
+          <div class="lista-autor">
+            <b>Autor:</b>
+            <span [innerHTML]="bookData.volumeInfo.authors"></span>
+            <!-- <span [innerHTML]="bookData.totalItems"></span> -->
+          </div>
+        </div>
+      </mat-list-item>
+      <div class="paginador" *ngIf="resposta">
+        <mat-paginator itemsPerPageLabel="Itens por página" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+        </mat-paginator>
+      </div>
+
+    </mat-nav-list>
+    
   </div>
+  <div></div>
   
+
 </div>

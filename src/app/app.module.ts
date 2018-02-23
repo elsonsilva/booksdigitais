@@ -13,7 +13,11 @@ import {
         MatInputModule,
         MatButtonModule,
         MatIconModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatCardModule,
+        MatSnackBarModule
 } from '@angular/material';
 
 // ANGULAR GESTURES
@@ -28,6 +32,7 @@ import { HeaderComponent } from './header/header.component';
 import { ListaComponent } from './lista/lista.component';
 import { DetalhesComponent } from './detalhes/detalhes.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
+import { SnackComponent } from './snack/snack.component';
 
 // SERVICES
 import { LocalStorage } from './utils/local-storage.service';
@@ -38,6 +43,7 @@ import { Utils } from './utils/utils.service';
 import { HighlightPipe } from './utils/highlight.pipe';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +51,12 @@ import { HighlightPipe } from './utils/highlight.pipe';
     ListaComponent,
     DetalhesComponent,
     FavoritosComponent,
-    HighlightPipe
+    HighlightPipe,
+    SnackComponent
+  ],
+  entryComponents: [
+    DetalhesComponent,
+    SnackComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +68,11 @@ import { HighlightPipe } from './utils/highlight.pipe';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatCardModule,
+    MatSnackBarModule
   ],
   providers: [
     LocalStorage,

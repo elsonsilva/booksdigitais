@@ -90,12 +90,27 @@ html, body {
     flex-direction: column;
     /* make sure it's at least as tall as the viewport */
     min-height: 100vh;
-
     font-family: Roboto, Arial, sans-serif;
     margin: 0;
-
+    background: #e6ecf0;
+    background-color: rgb(230, 236, 240);
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-size: auto auto;
+    color: #323941;
+    font-size: 14px;
+    line-height: 20px;
+    // overflow-y: scroll;
 }
 
-section.content {
-    flex-grow: 1;
-}
+
+/*
+ *  STYLE 1
+ */
+
+

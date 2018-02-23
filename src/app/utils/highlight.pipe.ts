@@ -20,7 +20,7 @@ export class HighlightPipe implements PipeTransform {
       return value;
     }
 
-    value = value.replace(re, '<mark style="background: #8aaac5;">' + match[0] + '</mark>');
+    value = value.replace(re, '<mark style="background: #e6ecf0;">' + match[0] + '</mark>');
     return this.sanitizer.bypassSecurityTrustHtml(value);
   }
 

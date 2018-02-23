@@ -1,23 +1,36 @@
-  
   .titulo {
     font-family: Roboto-Bold;
     color: #293e69;
     font-size: 1.1em;
     padding-left: 10px;
-    padding-right: 0px;
-  //  text-shadow: 0 0 .5px rgba(0, 0, 0, .7), 0 .5px 1px rgba(0, 0, 0, .14);
+    padding-right: 0px; //  text-shadow: 0 0 .5px rgba(0, 0, 0, .7), 0 .5px 1px rgba(0, 0, 0, .14);
   }
-  
+
   .titulo2 {
     font-family: Roboto-Regular;
     color: #7a8692;
     font-size: 1.1em;
     padding-left: 0px;
-    padding-right: 10px;
-  //  text-shadow: 0 0 .5px rgba(0, 0, 0, .7), 0 .5px 1px rgba(0, 0, 0, .14);
+    padding-right: 10px; //  text-shadow: 0 0 .5px rgba(0, 0, 0, .7), 0 .5px 1px rgba(0, 0, 0, .14);
   }
-    
+
   .tbar {
-    background:#FFFFFF;
-    box-shadow: 0 0 2px rgba(20, 20, 20, 0.12), 0 2px 4px rgba(22, 22, 22, 0.24); 
+    background: #FFFFFF;
+    -webkit-box-shadow: 0px 0.75px 1px 0px rgba(63, 64, 71, 0.5);
+    -moz-box-shadow: 0px 0.75px 1px 0px rgba(63, 64, 71, 0.5);
+    box-shadow: 0px 0.75px 1px 0px rgba(63, 64, 71, 0.5);
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-size: auto auto;
+    height: 46px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
   }
